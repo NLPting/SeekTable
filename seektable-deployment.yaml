@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: seektable
+  name: seektable
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: seektable
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: seektable
+    spec:
+      containers:
+        - env:
+            - name: SeekTable_ST
+              valueFrom:
+                configMapKeyRef:
+                  key: SeekTable_ST
+                  name: docker-compose-seektable-env
+            - name: SeekTable_ST:BaseUrl
+              value: /
+          image: seektable/seektable:latest
+          name: seektable
+          ports:
+            - containerPort: 5000
+          resources: {}
+          volumeMounts:
+            - mountPath: /app-data/csv-files
+              name: csv-files-volume
+            - mountPath: /app-data/db
+              name: db-volume
+      restartPolicy: Always
+      volumes:
+        - name: csv-files-volume
+          persistentVolumeClaim:
+            claimName: csv-files-volume
+        - name: db-volume
+          persistentVolumeClaim:
+            claimName: db-volume
+status: {}

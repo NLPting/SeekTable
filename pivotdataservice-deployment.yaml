@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: pivotdataservice
+  name: pivotdataservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: pivotdataservice
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: pivotdataservice
+    spec:
+      containers:
+        - image: seektable/pivotdataservice:latest
+          name: pivotdataservice
+          ports:
+            - containerPort: 5000
+          resources: {}
+          volumeMounts:
+            - mountPath: /app-data/csv-files
+              name: csv-files-volume
+      restartPolicy: Always
+      volumes:
+        - name: csv-files-volume
+          persistentVolumeClaim:
+            claimName: csv-files-volume
+status: {}

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: pivotdataservice-docker-compose-pivotdataservice-env
+  name: docker-compose-pivotdataservice-env

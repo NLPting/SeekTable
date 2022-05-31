@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  SeekTable_ST: BaseUrl=/
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: seektable-docker-compose-seektable-env
+  name: docker-compose-seektable-env
